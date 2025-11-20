@@ -1,5 +1,9 @@
 <x-layout>
     <h1>Books List</h1>
+    @session('status')
+    <div class="alert alert-success">{{ $value }}</div>
+    @endsession
+    <a href="{{ route('books.create') }}" class="btn btn-primary">Create</a>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -21,5 +25,12 @@
             </tr>
             @endforeach
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">
+                    {{ $books->links() }}
+                </td>
+            </tr>
+        </tfoot>
     </table>
 </x-layout>

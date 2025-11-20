@@ -12,7 +12,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        return view('categories.index',['categories'=>Category::all()]);
+        return view('categories.index',['categories'=>Category::paginate(1)]);
     }
 
     /**
@@ -28,7 +28,11 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name'=>'required'
+        ]);
+        Category::create($validated);
+        return redirect(route('categories.index'))->with('status','Category is added successfully');
     }
 
     /**

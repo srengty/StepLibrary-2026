@@ -15,5 +15,12 @@
             </tr>
             @endforeach
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    {{ $authors->links() }}
+                </td>
+            </tr>
+        </tfoot>
     </table>
 </x-layout>

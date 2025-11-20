@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class BooksController extends Controller
@@ -12,7 +13,7 @@ class BooksController extends Controller
      */
     public function index()
     {
-        return view('books.index', ['books'=>Book::all()]);
+        return view('books.index', ['books'=>Book::paginate(2)]);
     }
 
     /**
@@ -20,7 +21,7 @@ class BooksController extends Controller
      */
     public function create()
     {
-        //
+        return view('books.create',['categories'=>Category::pluck('name','id')]);
     }
 
     /**
@@ -28,7 +29,14 @@ class BooksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title'=>'required',
+            'pages'=>'nullable|min:0',
+            'year'=>'nullable|min:1',
+            'category_id'=>'nullable|exists:categories,id'
+        ]);
+        Book::create($validated);
+        return redirect(route('books.index'))->with('status','Book is added successfully');
     }
 
     /**
