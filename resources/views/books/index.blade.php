@@ -1,5 +1,6 @@
 <x-layout>
     <h1>Books List</h1>
+    <x-login-status/>
     @session('status')
     <div class="alert alert-success">{{ $value }}</div>
     @endsession
