@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Author;
 use App\Models\User;
+use App\Policies\AuthorPolicy;
 use Illuminate\Foundation\Application;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Gate::policy(Author::class, AuthorPolicy::class);
         //
         Paginator::useBootstrapFive();
         // Auth::extend('admin', function(Application $app, string $name, array $config){
@@ -34,6 +37,14 @@ class AppServiceProvider extends ServiceProvider
         });
         Gate::define('librarian-gate',function(User $user){
             return $user->role == 'librarian';
+        });
+        Gate::before(function (User $user, string $ability) {
+            if ($user->role=='admin') {
+                return true;
+            }
+        });
+        Auth::provider('admins', function (Application $app, array $config) {
+            return new RoleProvider('admin');
         });
     }
 }

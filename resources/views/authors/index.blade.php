@@ -5,6 +5,7 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -12,6 +13,14 @@
             <tr>
                 <td>{{ $author->id }}</td>
                 <td>{{ $author->name }}</td>
+                <td>
+                    @can('update',[$author])
+                    <a href="{{ route('authors.edit', $author->id) }}">Edit</a>
+                    @else
+                    Not allow
+                    @endcan
+                    
+                </td>
             </tr>
             @endforeach
         </tbody>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AuthorsController extends Controller
 {
@@ -12,6 +13,7 @@ class AuthorsController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAny',[Author::class]);
         $authors = Author::paginate(3);
         return view('authors.index', compact('authors'));
     }
@@ -45,7 +47,8 @@ class AuthorsController extends Controller
      */
     public function edit(Author $author)
     {
-        //
+        Gate::authorize('update',[$author]);
+        return view('authors.edit');
     }
 
     /**

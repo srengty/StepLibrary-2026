@@ -15,9 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectGuestsTo(fn(Request $request)=>'/login');
         $middleware->redirectUsersTo(function(Request $request){
-            if($request->user()->role_id == 1){
+            if($request->user()->role == "admin"){
                 return '/admin/dashboard';
-            }else if($request->user()->role_id==2){
+            }else if($request->user()->role=="teacher"){
                 return '/teacher/dashboard';
             } 
             return '/dasbhaord';
